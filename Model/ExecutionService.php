@@ -200,9 +200,19 @@ class ExecutionService implements ExecutionInterface
         }
 
         try {
+            // Change to application root directory before executing the command
+            $appRoot = $this->directoryList->getRoot();
+            $currentDir = getcwd();
+            
+            // Change to application root directory
+            chdir($appRoot);
+            
             // Redirect stderr to stdout to capture errors
             $fullCommand = $command . ' 2>&1';
             $output = shell_exec($fullCommand);
+            
+            // Restore original directory
+            chdir($currentDir);
 
             if ($output === null) {
                 // shell_exec can return null on error or if command produces no output
@@ -217,6 +227,11 @@ class ExecutionService implements ExecutionInterface
                 '[NeutromeLabs_Mcp] Error executing shell command via MCP: ' . $e->getMessage(),
                 ['exception' => $e]
             );
+            
+            // Make sure we restore the directory even if there's an error
+            if (isset($currentDir)) {
+                chdir($currentDir);
+            }
         }
 
         if ($error) {
