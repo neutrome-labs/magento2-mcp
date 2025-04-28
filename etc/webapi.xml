@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © NeutromeLabs. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Code Execution -->
+    <route url="/V1/neutromelabs_mcp/execute/php" method="POST">
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executePhp"/>
+        <resources>
+            <!-- Requires specific admin resource for security -->
+            <resource ref="NeutromeLabs_Mcp::execute_php"/>
+        </resources>
+    </route>
+
+    <route url="/V1/neutromelabs_mcp/execute/sql" method="POST">
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executeSql"/>
+        <resources>
+            <!-- Requires specific admin resource for security -->
+            <resource ref="NeutromeLabs_Mcp::execute_sql"/>
+        </resources>
+    </route>
+
+    <route url="/V1/neutromelabs_mcp/execute/shell" method="POST">
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executeShell"/>
+        <resources>
+            <!-- Requires specific admin resource for security -->
+            <resource ref="NeutromeLabs_Mcp::execute_shell"/>
+        </resources>
+    </route>
+
+    <!-- Module Introspection -->
+    <route url="/V1/neutromelabs_mcp/modules" method="GET">
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleList"/>
+        <resources>
+            <resource ref="NeutromeLabs_Mcp::modules_read"/>
+        </resources>
+    </route>
+
+    <route url="/V1/neutromelabs_mcp/modules/:moduleName/files" method="GET">
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleFiles"/>
+        <resources>
+            <resource ref="NeutromeLabs_Mcp::modules_read"/>
+        </resources>
+    </route>
+
+    <route url="/V1/neutromelabs_mcp/modules/:moduleName/content" method="GET">
+        <!-- filePath is expected as a query parameter, e.g., ?filePath=etc/module.xml -->
+        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleFileContent"/>
+        <resources>
+            <resource ref="NeutromeLabs_Mcp::files_read"/>
+        </resources>
+    </route>
+
+</routes>

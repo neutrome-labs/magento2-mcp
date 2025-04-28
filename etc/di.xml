@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © NeutromeLabs. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Define Service Contract Preferences -->
+    <preference for="NeutromeLabs\Mcp\Api\ExecutionInterface" type="NeutromeLabs\Mcp\Model\ExecutionService"/>
+    <preference for="NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface" type="NeutromeLabs\Mcp\Model\Data\ModuleFileNode"/>
+
+    <!-- Inject dependencies into ExecutionService -->
+    <type name="NeutromeLabs\Mcp\Model\ExecutionService">
+        <arguments>
+            <argument name="moduleList" xsi:type="object">Magento\Framework\Module\ModuleListInterface</argument>
+            <argument name="moduleDirReader" xsi:type="object">Magento\Framework\Module\Dir\Reader</argument>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem</argument>
+            <argument name="directoryList" xsi:type="object">Magento\Framework\Filesystem\DirectoryList</argument>
+            <argument name="fileDriver" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
+    <!-- Add other DI configurations like plugins, virtual types if needed later -->
+</config>
