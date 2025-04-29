@@ -10,7 +10,7 @@
 
     <!-- Code Execution -->
     <route url="/V1/neutromelabs_mcp/execute/php" method="POST">
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executePhp"/>
+        <service class="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface" method="executePhp"/>
         <resources>
             <!-- Requires specific admin resource for security -->
             <resource ref="NeutromeLabs_Mcp::execute_php"/>
@@ -18,7 +18,7 @@
     </route>
 
     <route url="/V1/neutromelabs_mcp/execute/sql" method="POST">
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executeSql"/>
+        <service class="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface" method="executeSql"/>
         <resources>
             <!-- Requires specific admin resource for security -->
             <resource ref="NeutromeLabs_Mcp::execute_sql"/>
@@ -26,7 +26,7 @@
     </route>
 
     <route url="/V1/neutromelabs_mcp/execute/shell" method="POST">
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="executeShell"/>
+        <service class="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface" method="executeShell"/>
         <resources>
             <!-- Requires specific admin resource for security -->
             <resource ref="NeutromeLabs_Mcp::execute_shell"/>
@@ -35,14 +35,14 @@
 
     <!-- Module Introspection -->
     <route url="/V1/neutromelabs_mcp/modules" method="GET">
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleList"/>
+        <service class="NeutromeLabs\Mcp\Api\ModuleServiceInterface" method="getModuleList"/>
         <resources>
             <resource ref="NeutromeLabs_Mcp::modules_read"/>
         </resources>
     </route>
 
     <route url="/V1/neutromelabs_mcp/modules/:moduleName/files" method="GET">
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleFiles"/>
+        <service class="NeutromeLabs\Mcp\Api\ModuleServiceInterface" method="getModuleFiles"/>
         <resources>
             <resource ref="NeutromeLabs_Mcp::modules_read"/>
         </resources>
@@ -50,10 +50,28 @@
 
     <route url="/V1/neutromelabs_mcp/modules/:moduleName/content" method="GET">
         <!-- filePath is expected as a query parameter, e.g., ?filePath=etc/module.xml -->
-        <service class="NeutromeLabs\Mcp\Api\ExecutionInterface" method="getModuleFileContent"/>
+        <service class="NeutromeLabs\Mcp\Api\ModuleServiceInterface" method="getModuleFileContent"/>
         <resources>
             <resource ref="NeutromeLabs_Mcp::files_read"/>
         </resources>
     </route>
 
+    <!-- Log File Operations -->
+    <route url="/V1/neutromelabs_mcp/logs" method="GET">
+        <service class="NeutromeLabs\Mcp\Api\LogServiceInterface" method="listLogFiles"/>
+        <resources>
+            <!-- Define a new ACL resource for reading logs -->
+            <resource ref="NeutromeLabs_Mcp::logs_read"/>
+        </resources>
+    </route>
+
+    <route url="/V1/neutromelabs_mcp/logs/tail" method="GET">
+        <!-- filePath is expected as a query parameter, e.g., ?filePath=system.log -->
+        <!-- lines (optional) is also expected as a query parameter, e.g., &lines=100 -->
+        <service class="NeutromeLabs\Mcp\Api\LogServiceInterface" method="tailLogFile"/>
+        <resources>
+            <!-- Define a new ACL resource for tailing logs -->
+            <resource ref="NeutromeLabs_Mcp::logs_tail"/>
+        </resources>
+    </route>
 </routes>

@@ -19,6 +19,10 @@
                         <resource id="NeutromeLabs_Mcp::modules_read" title="Read Module List and Files" sortOrder="10" />
                         <resource id="NeutromeLabs_Mcp::files_read" title="Read Module File Content" sortOrder="20" />
                     </resource>
+                    <resource id="NeutromeLabs_Mcp::logs" title="Log File Operations" sortOrder="30">
+                        <resource id="NeutromeLabs_Mcp::logs_read" title="List Log Files" sortOrder="10" />
+                        <resource id="NeutromeLabs_Mcp::logs_tail" title="Tail Log Files" sortOrder="20" />
+                    </resource>
                 </resource>
                 <!-- Add other resources if needed for configuration etc. -->
             </resource>
