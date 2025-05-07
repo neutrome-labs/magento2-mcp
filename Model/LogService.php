@@ -81,7 +81,7 @@ class LogService implements LogServiceInterface
         $this->logger->info('[NeutromeLabs_Mcp] Requesting log file list via MCP');
         $logFilesInfo = [];
         try {
-            $logDir = $this->directoryList->getPath(DirectoryList::LOG);
+            $logDir = $this->directoryList->getPath('log');
             if (!$this->fileDriver->isDirectory($logDir)) {
                 $this->logger->warning('[NeutromeLabs_Mcp] Log directory does not exist.', ['path' => $logDir]);
                 return []; // Return empty if log dir doesn't exist
@@ -139,7 +139,7 @@ class LogService implements LogServiceInterface
         }
 
         try {
-            $logDir = $this->directoryList->getPath(DirectoryList::LOG);
+            $logDir = $this->directoryList->getPath('log');
             $fullPath = $this->resolveLogFilePath($filePath, $logDir);
 
             if (!$this->fileDriver->isExists($fullPath)) {
