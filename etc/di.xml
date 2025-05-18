@@ -6,19 +6,10 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- Define Service Contract Preferences -->
     <preference for="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface" type="NeutromeLabs\Mcp\Model\CodeExecutionService"/>
     <preference for="NeutromeLabs\Mcp\Api\ModuleServiceInterface" type="NeutromeLabs\Mcp\Model\ModuleService"/>
     <preference for="NeutromeLabs\Mcp\Api\LogServiceInterface" type="NeutromeLabs\Mcp\Model\LogService"/>
 
-    <!-- Define Data Transfer Object Preferences -->
     <preference for="NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface" type="NeutromeLabs\Mcp\Model\Data\ModuleFileNode"/>
     <preference for="NeutromeLabs\Mcp\Api\Data\LogFileInfoInterface" type="NeutromeLabs\Mcp\Model\Data\LogFileInfo"/>
-
-    <!--
-    Explicit dependency injection arguments are generally not needed for these services
-    as Magento's Object Manager can automatically resolve constructor dependencies
-    for standard framework classes like LoggerInterface, Filesystem, DirectoryList, etc.
-    If specific implementations or configurations were needed, <type> definitions would go here.
-    -->
 </config>

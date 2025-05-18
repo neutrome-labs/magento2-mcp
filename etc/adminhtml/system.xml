@@ -1,20 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="neutromelabs" translate="label" sortOrder="1000">
-            <label>Neutrome Labs</label>
-        </tab>
         <section id="mcp" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-            <label>MCP Settings</label>
+            <label>@storeowner</label>
             <tab>neutromelabs</tab>
             <resource>NeutromeLabs_Mcp::config</resource> <!-- Define ACL resource -->
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>General Configuration</label>
-                <field id="ai_chat_iframe_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>AI Chat Iframe URL</label>
-                    <comment>Enter the full URL for the AI Chat iframe popup.</comment>
-                    <validate>validate-url</validate>
-                </field>
             </group>
         </section>
     </system>

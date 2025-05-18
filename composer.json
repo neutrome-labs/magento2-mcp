@@ -7,6 +7,9 @@
         "AFL-3.0"
     ],
     "version": "0.0.1",
+    "require": {
+        "neutrome-labs/magento2-core": "^0.0.1"
+    },
     "autoload": {
         "files": [
             "registration.php"

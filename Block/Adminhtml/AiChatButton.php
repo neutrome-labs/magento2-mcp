@@ -32,7 +32,7 @@ class AiChatButton extends Template
      */
     public function getAiChatUrl(): ?string
     {
-        return $this->mcpHelper->getAiChatIframeUrl();
+        return $this->mcpHelper->getAiChatIframeScript();
     }
 
     /**

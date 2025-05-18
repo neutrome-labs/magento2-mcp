@@ -8,7 +8,7 @@ use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
-    private const XML_PATH_AI_CHAT_IFRAME_URL = 'mcp/general/ai_chat_iframe_url';
+    private const string XML_PATH_AI_CHAT_IFRAME_SCRIPT = 'mcp/general/ai_chat_iframe_script';
 
     /**
      * Get the configured AI Chat Iframe URL
@@ -16,10 +16,10 @@ class Data extends AbstractHelper
      * @param int|null $storeId
      * @return string|null
      */
-    public function getAiChatIframeUrl(?int $storeId = null): ?string
+    public function getAiChatIframeScript(?int $storeId = null): ?string
     {
         $value = $this->scopeConfig->getValue(
-            self::XML_PATH_AI_CHAT_IFRAME_URL,
+            self::XML_PATH_AI_CHAT_IFRAME_SCRIPT,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
