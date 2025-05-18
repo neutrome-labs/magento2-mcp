@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Model\Config\Source;
 
+use Exception;
 use Magento\Framework\Data\OptionSourceInterface;
-use NeutromeLabs\Core\Model\ApiClient;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\UrlInterface as MagentoUrlInterface; // Alias to avoid conflict
-use Psr\Log\LoggerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface as MagentoUrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use NeutromeLabs\Core\Model\ApiClient;
+use Psr\Log\LoggerInterface;
 
 class Deployments implements OptionSourceInterface
 {
@@ -17,10 +18,11 @@ class Deployments implements OptionSourceInterface
     protected LoggerInterface $logger;
 
     public function __construct(
-        ApiClient $apiClient,
+        ApiClient             $apiClient,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger
-    ) {
+        LoggerInterface       $logger
+    )
+    {
         $this->apiClient = $apiClient;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
@@ -51,7 +53,7 @@ class Deployments implements OptionSourceInterface
                     if (!empty($deployment['name'])) { // Pocketbase 'name' field for records
                         $label = $deployment['name'];
                     } else if (isset($deployment['input']['instance_name']) && !empty($deployment['input']['instance_name'])) {
-                         // Fallback to a custom field if 'name' is not standard or used differently
+                        // Fallback to a custom field if 'name' is not standard or used differently
                         $label = $deployment['input']['instance_name'];
                     }
                     $status = $deployment['status'] ?? 'unknown'; // Get status, default to 'unknown' if not set
@@ -67,7 +69,7 @@ class Deployments implements OptionSourceInterface
         } catch (NoSuchEntityException $e) {
             $this->logger->error('Deployments SourceModel: NoSuchEntityException - ' . $e->getMessage());
             $options[] = ['value' => '', 'label' => __('Error: Store not found for Base URL.'), 'disabled' => true];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error('Deployments SourceModel: Exception fetching deployments - ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             $options[] = ['value' => '', 'label' => __('Error fetching deployments (exception).'), 'disabled' => true];
         }

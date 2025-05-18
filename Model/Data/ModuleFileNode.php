@@ -7,8 +7,9 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Model\Data;
 
-use NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface;
+use InvalidArgumentException;
 use Magento\Framework\DataObject;
+use NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface;
 
 /**
  * Data model for a module file tree node.
@@ -17,11 +18,11 @@ class ModuleFileNode extends DataObject implements ModuleFileNodeInterface
 {
     /**
      * @inheritdoc
-      */
-     public function getName(): string
-     {
-         return $this->getData(self::NAME);
-     }
+     */
+    public function getName(): string
+    {
+        return $this->getData(self::NAME);
+    }
 
     /**
      * @inheritdoc
@@ -33,11 +34,11 @@ class ModuleFileNode extends DataObject implements ModuleFileNodeInterface
 
     /**
      * @inheritdoc
-      */
-     public function getType(): string
-     {
-         return $this->getData(self::TYPE);
-     }
+     */
+    public function getType(): string
+    {
+        return $this->getData(self::TYPE);
+    }
 
     /**
      * @inheritdoc
@@ -46,18 +47,18 @@ class ModuleFileNode extends DataObject implements ModuleFileNodeInterface
     {
         // Basic validation
         if (!in_array($type, ['file', 'dir'])) {
-            throw new \InvalidArgumentException("Invalid node type provided: {$type}. Must be 'file' or 'dir'.");
+            throw new InvalidArgumentException("Invalid node type provided: {$type}. Must be 'file' or 'dir'.");
         }
         return $this->setData(self::TYPE, $type);
     }
 
     /**
      * @inheritdoc
-      */
-     public function getChildren(): ?array
-     {
-         return $this->getData(self::CHILDREN);
-     }
+     */
+    public function getChildren(): ?array
+    {
+        return $this->getData(self::CHILDREN);
+    }
 
     /**
      * @inheritdoc

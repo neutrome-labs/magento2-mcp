@@ -7,18 +7,21 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Model;
 
+use FilesystemIterator;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Driver\File as FileDriver;
 use NeutromeLabs\Mcp\Api\Data\LogFileInfoInterface;
-use NeutromeLabs\Mcp\Api\Data\LogFileInfoInterfaceFactory; // Need factory for DTO
+use NeutromeLabs\Mcp\Api\Data\LogFileInfoInterfaceFactory;
 use NeutromeLabs\Mcp\Api\LogServiceInterface;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use FilesystemIterator;
+use Throwable;
+
+// Need factory for DTO
 
 /**
  * Service class implementing log file operations.
@@ -60,12 +63,13 @@ class LogService implements LogServiceInterface
      * @param LoggerInterface $logger
      */
     public function __construct(
-        Filesystem $filesystem,
-        DirectoryList $directoryList,
-        FileDriver $fileDriver,
+        Filesystem                  $filesystem,
+        DirectoryList               $directoryList,
+        FileDriver                  $fileDriver,
         LogFileInfoInterfaceFactory $logFileInfoFactory,
-        LoggerInterface $logger
-    ) {
+        LoggerInterface             $logger
+    )
+    {
         $this->filesystem = $filesystem;
         $this->directoryList = $directoryList;
         $this->fileDriver = $fileDriver;
@@ -111,7 +115,7 @@ class LogService implements LogServiceInterface
                     }
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error listing log files: ' . $e->getMessage(),
                 ['exception' => $e]
@@ -125,6 +129,23 @@ class LogService implements LogServiceInterface
         });
 
         return $logFilesInfo;
+    }
+
+    /**
+     * Get the relative path of a log file based on the log directory.
+     *
+     * @param string $fullPath
+     * @param string $logDir
+     * @return string
+     */
+    private function getRelativeLogPath(string $fullPath, string $logDir): string
+    {
+        // Ensure logDir has a trailing slash for correct replacement
+        $logDir = rtrim($logDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        if (strpos($fullPath, $logDir) === 0) {
+            return substr($fullPath, strlen($logDir));
+        }
+        return $fullPath; // Should not happen if iteration is correct, but fallback
     }
 
     /**
@@ -168,36 +189,19 @@ class LogService implements LogServiceInterface
 
             return $resultLines;
 
-        } catch (NotFoundException | FileSystemException $e) {
+        } catch (NotFoundException|FileSystemException $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error tailing log file: ' . $e->getMessage(),
                 ['file' => $filePath, 'exception' => $e]
             );
             throw $e; // Re-throw specific exceptions
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] General error tailing log file: ' . $e->getMessage(),
                 ['file' => $filePath, 'exception' => $e]
             );
             throw new FileSystemException(__('Error tailing log file "%1": %2', $filePath, $e->getMessage()), $e);
         }
-    }
-
-    /**
-     * Get the relative path of a log file based on the log directory.
-     *
-     * @param string $fullPath
-     * @param string $logDir
-     * @return string
-     */
-    private function getRelativeLogPath(string $fullPath, string $logDir): string
-    {
-        // Ensure logDir has a trailing slash for correct replacement
-        $logDir = rtrim($logDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        if (strpos($fullPath, $logDir) === 0) {
-            return substr($fullPath, strlen($logDir));
-        }
-        return $fullPath; // Should not happen if iteration is correct, but fallback
     }
 
     /**
@@ -221,10 +225,10 @@ class LogService implements LogServiceInterface
 
         // Check if real path starts with real log dir path + directory separator
         if (strpos($realFullPath, $realLogDir . DIRECTORY_SEPARATOR) !== 0) {
-             // Also handle case where the requested path IS the log dir itself (which is not a file)
-             if ($realFullPath !== $realLogDir) {
-                 throw new FileSystemException(__('Access denied: File path is outside the allowed log directory.'));
-             }
+            // Also handle case where the requested path IS the log dir itself (which is not a file)
+            if ($realFullPath !== $realLogDir) {
+                throw new FileSystemException(__('Access denied: File path is outside the allowed log directory.'));
+            }
         }
 
         return $fullPath; // Return the non-realpath version for consistency, validation done

@@ -3,14 +3,16 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Block\Adminhtml\System\Config;
 
-use Magento\Config\Block\System\Config\Form\Field;
-use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Backend\Block\Template\Context;
-use NeutromeLabs\Core\Helper\Data as CoreHelper;
+use Magento\Backend\Block\Widget\Button;
+use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface as MagentoUrlInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\UrlInterface as MagentoUrlInterface;
+use NeutromeLabs\Core\Helper\Data as CoreHelper;
 
 class CreateNewButton extends Field
 {
@@ -24,12 +26,13 @@ class CreateNewButton extends Field
     protected $_template = 'NeutromeLabs_Mcp::system/config/create_new_button.phtml';
 
     public function __construct(
-        Context $context,
-        CoreHelper $coreHelper,
-        ScopeConfigInterface $scopeConfig,
+        Context               $context,
+        CoreHelper            $coreHelper,
+        ScopeConfigInterface  $scopeConfig,
         StoreManagerInterface $storeManager,
-        array $data = []
-    ) {
+        array                 $data = []
+    )
+    {
         $this->coreHelper = $coreHelper;
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
@@ -39,24 +42,13 @@ class CreateNewButton extends Field
     /**
      * Remove scope label
      *
-     * @param  AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
     public function render(AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
-    }
-
-    /**
-     * Return element html
-     *
-     * @param  AbstractElement $element
-     * @return string
-     */
-    protected function _getElementHtml(AbstractElement $element)
-    {
-        return $this->_toHtml();
     }
 
     /**
@@ -67,7 +59,7 @@ class CreateNewButton extends Field
     public function getButtonHtml()
     {
         $button = $this->getLayout()->createBlock(
-            \Magento\Backend\Block\Widget\Button::class
+            Button::class
         )->setData(
             [
                 'id' => 'create_new_deployment_button_el', // HTML id
@@ -102,9 +94,20 @@ class CreateNewButton extends Field
             $baseUrl = $this->storeManager->getStore()->getBaseUrl(MagentoUrlInterface::URL_TYPE_WEB, true);
             // Remove trailing slash for consistency
             return rtrim($baseUrl, '/');
-        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $this->_logger->error('CreateNewButton: Could not get base URL - ' . $e->getMessage());
             return null;
         }
+    }
+
+    /**
+     * Return element html
+     *
+     * @param AbstractElement $element
+     * @return string
+     */
+    protected function _getElementHtml(AbstractElement $element)
+    {
+        return $this->_toHtml();
     }
 }

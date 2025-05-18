@@ -5,23 +5,27 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="NeutromeLabs_Mcp::mcp" title="NeutromeLabs MCP" sortOrder="100">
                     <resource id="NeutromeLabs_Mcp::execute" title="Execute Code/Queries" sortOrder="10">
-                        <resource id="NeutromeLabs_Mcp::execute_php" title="Execute PHP Code via MCP" sortOrder="10" />
-                        <resource id="NeutromeLabs_Mcp::execute_sql" title="Execute SQL Queries via MCP" sortOrder="20" />
-                        <resource id="NeutromeLabs_Mcp::execute_shell" title="Execute Shell Commands via MCP" sortOrder="30" />
+                        <resource id="NeutromeLabs_Mcp::execute_php" title="Execute PHP Code via MCP" sortOrder="10"/>
+                        <resource id="NeutromeLabs_Mcp::execute_sql" title="Execute SQL Queries via MCP"
+                                  sortOrder="20"/>
+                        <resource id="NeutromeLabs_Mcp::execute_shell" title="Execute Shell Commands via MCP"
+                                  sortOrder="30"/>
                     </resource>
                     <resource id="NeutromeLabs_Mcp::introspection" title="Module Introspection" sortOrder="20">
-                        <resource id="NeutromeLabs_Mcp::modules_read" title="Read Module List and Files" sortOrder="10" />
-                        <resource id="NeutromeLabs_Mcp::files_read" title="Read Module File Content" sortOrder="20" />
+                        <resource id="NeutromeLabs_Mcp::modules_read" title="Read Module List and Files"
+                                  sortOrder="10"/>
+                        <resource id="NeutromeLabs_Mcp::files_read" title="Read Module File Content" sortOrder="20"/>
                     </resource>
                     <resource id="NeutromeLabs_Mcp::logs" title="Log File Operations" sortOrder="30">
-                        <resource id="NeutromeLabs_Mcp::logs_read" title="List Log Files" sortOrder="10" />
-                        <resource id="NeutromeLabs_Mcp::logs_tail" title="Tail Log Files" sortOrder="20" />
+                        <resource id="NeutromeLabs_Mcp::logs_read" title="List Log Files" sortOrder="10"/>
+                        <resource id="NeutromeLabs_Mcp::logs_tail" title="Tail Log Files" sortOrder="20"/>
                     </resource>
                 </resource>
                 <!-- Add other resources if needed for configuration etc. -->

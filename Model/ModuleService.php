@@ -7,9 +7,10 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Model;
 
+use Exception;
+use FilesystemIterator;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\Driver\File as FileDriver;
-use Magento\Framework\Module\Dir;
 use Magento\Framework\Module\Dir\Reader as ModuleDirReader;
 use Magento\Framework\Module\ModuleListInterface;
 use NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface;
@@ -18,7 +19,7 @@ use NeutromeLabs\Mcp\Api\ModuleServiceInterface;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use FilesystemIterator;
+use Throwable;
 
 /**
  * Service class implementing module introspection operations.
@@ -60,12 +61,13 @@ class ModuleService implements ModuleServiceInterface
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ModuleListInterface $moduleList,
-        ModuleDirReader $moduleDirReader,
-        FileDriver $fileDriver,
+        ModuleListInterface            $moduleList,
+        ModuleDirReader                $moduleDirReader,
+        FileDriver                     $fileDriver,
         ModuleFileNodeInterfaceFactory $moduleFileNodeFactory,
-        LoggerInterface $logger
-    ) {
+        LoggerInterface                $logger
+    )
+    {
         $this->moduleList = $moduleList;
         $this->moduleDirReader = $moduleDirReader;
         $this->fileDriver = $fileDriver;
@@ -81,12 +83,12 @@ class ModuleService implements ModuleServiceInterface
         $this->logger->info('[NeutromeLabs_Mcp] Requesting module list via MCP');
         try {
             return $this->moduleList->getNames();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error retrieving module list: ' . $e->getMessage(),
                 ['exception' => $e]
             );
-            throw new \Exception("Error retrieving module list: " . $e->getMessage());
+            throw new Exception("Error retrieving module list: " . $e->getMessage());
         }
     }
 
@@ -157,12 +159,12 @@ class ModuleService implements ModuleServiceInterface
             );
             // Re-throw localized exceptions as they are user-friendly
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] General error getting module files: ' . $e->getMessage(),
                 ['module' => $moduleName, 'exception' => $e]
             );
-            throw new \Exception("Error retrieving file list for module '{$moduleName}': " . $e->getMessage());
+            throw new Exception("Error retrieving file list for module '{$moduleName}': " . $e->getMessage());
         }
     }
 
@@ -256,12 +258,12 @@ class ModuleService implements ModuleServiceInterface
             );
             // Re-throw localized exceptions
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] General error getting file content: ' . $e->getMessage(),
                 ['module' => $moduleName, 'file' => $filePath, 'exception' => $e]
             );
-            throw new \Exception(
+            throw new Exception(
                 "Error retrieving content for file '{$filePath}' in module '{$moduleName}': " . $e->getMessage()
             );
         }

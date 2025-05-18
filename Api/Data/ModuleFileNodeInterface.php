@@ -51,14 +51,14 @@ interface ModuleFileNodeInterface
      * Get the children nodes (for directories).
      * Returns null for files.
      *
-     * @return \NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface[]|null
+     * @return ModuleFileNodeInterface[]|null
      */
     public function getChildren(): ?array;
 
     /**
      * Set the children nodes (for directories).
      *
-     * @param \NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface[]|null $children
+     * @param ModuleFileNodeInterface[]|null $children
      * @return $this
      */
     public function setChildren(?array $children): self;

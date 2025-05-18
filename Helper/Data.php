@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Config\Storage\WriterInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 
 class Data extends AbstractHelper
@@ -14,9 +14,10 @@ class Data extends AbstractHelper
     private WriterInterface $configWriter;
 
     public function __construct(
-        Context $context,
+        Context         $context,
         WriterInterface $configWriter
-    ) {
+    )
+    {
         parent::__construct($context);
         $this->configWriter = $configWriter;
     }

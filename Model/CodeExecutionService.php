@@ -12,7 +12,9 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\DirectoryList;
 use NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface;
+use PDO;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Service class implementing code and command execution operations.
@@ -48,9 +50,10 @@ class CodeExecutionService implements CodeExecutionServiceInterface
      */
     public function __construct(
         ResourceConnection $resourceConnection,
-        LoggerInterface $logger,
-        DirectoryList $directoryList
-    ) {
+        LoggerInterface    $logger,
+        DirectoryList      $directoryList
+    )
+    {
         $this->resourceConnection = $resourceConnection;
         $this->logger = $logger;
         $this->directoryList = $directoryList;
@@ -72,7 +75,7 @@ class CodeExecutionService implements CodeExecutionServiceInterface
         try {
             // Use eval - this is inherently dangerous!
             eval($code);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $error = $e;
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error executing PHP code via MCP: ' . $e->getMessage(),
@@ -111,7 +114,7 @@ class CodeExecutionService implements CodeExecutionServiceInterface
             $rowCount = $statement->rowCount();
 
             if (preg_match('/^\s*SELECT/i', $trimmedQuery)) {
-                $resultData = $statement->fetchAll(\PDO::FETCH_ASSOC);
+                $resultData = $statement->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultData) {
                     // Limit result size to prevent memory issues/large responses
                     if (strlen(json_encode($resultData)) > 5 * 1024 * 1024) { // 5MB limit
@@ -127,7 +130,7 @@ class CodeExecutionService implements CodeExecutionServiceInterface
                 $resultSummary = 'OK. Statement executed.';
             }
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error executing SQL query via MCP: ' . $e->getMessage(),
                 ['exception' => $e]
@@ -175,7 +178,7 @@ class CodeExecutionService implements CodeExecutionServiceInterface
                 $output = "OK (No output or error)";
             }
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $error = $e;
             $this->logger->error(
                 '[NeutromeLabs_Mcp] Error executing shell command via MCP: ' . $e->getMessage(),

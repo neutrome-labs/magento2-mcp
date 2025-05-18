@@ -3,16 +3,18 @@ declare(strict_types=1);
 
 namespace NeutromeLabs\Mcp\Model\Config\Backend;
 
-use Magento\Framework\App\Config\Value;
-use Magento\Framework\Model\Context;
-use Magento\Framework\Registry;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Exception;
 use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\Value;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use NeutromeLabs\Core\Model\ApiClient;
 use NeutromeLabs\Mcp\Helper\Data as McpHelper;
-// use Magento\Framework\App\Config\Storage\WriterInterface; // No longer needed
 use Psr\Log\LoggerInterface;
-use Magento\Framework\Exception\LocalizedException;
 
 class DeploymentScript extends Value
 {
@@ -22,18 +24,19 @@ class DeploymentScript extends Value
     protected McpHelper $mcpHelper;
 
     public function __construct(
-        Context $context,
-        Registry $registry,
-        ScopeConfigInterface $config, // Injected by parent
-        TypeListInterface $cacheTypeList, // Injected by parent
-        ApiClient $apiClient,
+        Context                                                 $context,
+        Registry                                                $registry,
+        ScopeConfigInterface                                    $config, // Injected by parent
+        TypeListInterface                                       $cacheTypeList, // Injected by parent
+        ApiClient                                               $apiClient,
         // WriterInterface $configWriter, // No longer needed
-        LoggerInterface $logger,
-        McpHelper $mcpHelper,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = []
-    ) {
+        LoggerInterface                                         $logger,
+        McpHelper                                               $mcpHelper,
+        AbstractResource $resource = null,
+        AbstractDb           $resourceCollection = null,
+        array                                                   $data = []
+    )
+    {
         $this->apiClient = $apiClient;
         // $this->configWriter = $configWriter; // No longer needed
         $this->logger = $logger;
@@ -98,7 +101,7 @@ class DeploymentScript extends Value
                 }
             } catch (LocalizedException $e) { // Re-throw LocalizedExceptions directly
                 throw $e;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error(
                     'DeploymentScriptBackend: Exception while fetching/saving iframe script - ' . $e->getMessage(),
                     ['deployment_id' => $deploymentId, 'exception' => $e]
@@ -109,7 +112,7 @@ class DeploymentScript extends Value
                 );
             }
         }
-        
+
         return parent::beforeSave();
     }
 }

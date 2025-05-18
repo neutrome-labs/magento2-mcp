@@ -1,8 +1,12 @@
 <?php
 /**
- * @var \NeutromeLabs\Mcp\Block\Adminhtml\AiChatButton $block
- * @var \Magento\Framework\Escaper $escaper
+ * @var AiChatButton $block
+ * @var Escaper $escaper
  */
+
+use Magento\Framework\Escaper;
+use NeutromeLabs\Mcp\Block\Adminhtml\AiChatButton;
+
 ?>
 
 <?= $block->shouldDisplayButton() ? $block->getAiChatUrl() : "" ?>

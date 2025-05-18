@@ -5,11 +5,14 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface" type="NeutromeLabs\Mcp\Model\CodeExecutionService"/>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="NeutromeLabs\Mcp\Api\CodeExecutionServiceInterface"
+                type="NeutromeLabs\Mcp\Model\CodeExecutionService"/>
     <preference for="NeutromeLabs\Mcp\Api\ModuleServiceInterface" type="NeutromeLabs\Mcp\Model\ModuleService"/>
     <preference for="NeutromeLabs\Mcp\Api\LogServiceInterface" type="NeutromeLabs\Mcp\Model\LogService"/>
 
-    <preference for="NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface" type="NeutromeLabs\Mcp\Model\Data\ModuleFileNode"/>
+    <preference for="NeutromeLabs\Mcp\Api\Data\ModuleFileNodeInterface"
+                type="NeutromeLabs\Mcp\Model\Data\ModuleFileNode"/>
     <preference for="NeutromeLabs\Mcp\Api\Data\LogFileInfoInterface" type="NeutromeLabs\Mcp\Model\Data\LogFileInfo"/>
 </config>

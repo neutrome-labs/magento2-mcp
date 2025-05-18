@@ -17,22 +17,13 @@ class AiChatButton extends Template
      * @param array $data
      */
     public function __construct(
-        Context $context,
+        Context   $context,
         McpHelper $mcpHelper,
-        array $data = []
-    ) {
+        array     $data = []
+    )
+    {
         $this->mcpHelper = $mcpHelper;
         parent::__construct($context, $data);
-    }
-
-    /**
-     * Get the AI Chat Iframe URL from configuration
-     *
-     * @return string|null
-     */
-    public function getAiChatUrl(): ?string
-    {
-        return $this->mcpHelper->getAiChatIframeScript();
     }
 
     /**
@@ -43,5 +34,15 @@ class AiChatButton extends Template
     public function shouldDisplayButton(): bool
     {
         return (bool)$this->getAiChatUrl();
+    }
+
+    /**
+     * Get the AI Chat Iframe URL from configuration
+     *
+     * @return string|null
+     */
+    public function getAiChatUrl(): ?string
+    {
+        return $this->mcpHelper->getAiChatIframeScript();
     }
 }
