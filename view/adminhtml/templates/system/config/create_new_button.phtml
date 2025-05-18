@@ -1,0 +1,48 @@
+<?php
+/**
+ * @var \NeutromeLabs\Mcp\Block\Adminhtml\System\Config\CreateNewButton $block
+ */
+
+$neutromeBaseUrl = $block->getNeutromeLabsBaseUrl();
+$magentoStoreName = $block->getMagentoStoreName();
+$magentoAdminBaseUrl = $block->getMagentoAdminBaseUrl();
+
+$disabled = '';
+$tooltip = '';
+$targetUrl = '#';
+
+if (!$neutromeBaseUrl) {
+    $disabled = 'disabled="disabled"';
+    $tooltip = __('NeutromeLabs Base URL is not configured.');
+} elseif (!$magentoAdminBaseUrl) {
+    $disabled = 'disabled="disabled"';
+    $tooltip = __('Could not determine Magento Base URL.');
+} else {
+    $targetUrl = rtrim($neutromeBaseUrl, '/') .
+                 '/profile/services?create=magento2-admin-mcp-server-v2' . 
+                 '&name=' . urlencode(is_string($magentoStoreName) && strlen($magentoStoreName) > 0 ? $magentoStoreName : $magentoAdminBaseUrl) .
+                 '&magentoBaseUrl=' . urlencode((string)$magentoAdminBaseUrl);
+}
+?>
+
+<?= $block->getButtonHtml() ?>
+
+<?php if ($tooltip): ?>
+    <p class="note"><span><?= $block->escapeHtml($tooltip) ?></span></p>
+<?php endif; ?>
+
+<script type="text/javascript">
+require(['jquery'], function($){
+    $('#create_new_deployment_button_el').on('click', function(event) {
+        event.preventDefault();
+        <?php if (!$disabled && $targetUrl !== '#'): ?>
+            window.open('<?= $block->escapeJs($targetUrl) ?>', '_blank');
+        <?php else: ?>
+            alert('<?= $block->escapeJs($tooltip ?: __('Button is disabled or URL cannot be constructed.')) ?>');
+        <?php endif; ?>
+    });
+    <?php if ($disabled): ?>
+        $('#create_new_deployment_button_el').prop('disabled', true);
+    <?php endif; ?>
+});
+</script>

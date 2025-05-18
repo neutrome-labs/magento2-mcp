@@ -4,8 +4,22 @@
         <section id="mcp" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>@storeowner</label>
             <tab>neutromelabs</tab>
-            <resource>NeutromeLabs_Mcp::config</resource> <!-- Define ACL resource -->
+            <resource>NeutromeLabs_Mcp::config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+
+                <field id="deployment_select" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Deployment</label>
+                    <source_model>NeutromeLabs\Mcp\Model\Config\Source\Deployments</source_model>
+                    <backend_model>NeutromeLabs\Mcp\Model\Config\Backend\DeploymentScript</backend_model>
+                    <comment>Select a deployment to connect. The iframe script will be updated upon saving. Select '-- Please Select --' or an empty option to disconnect/clear the script.</comment>
+                </field>
+
+                <field id="create_new_deployment_button" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Create New Deployment</label>
+                    <frontend_model>NeutromeLabs\Mcp\Block\Adminhtml\System\Config\CreateNewButton</frontend_model>
+                    <comment>Opens the NeutromeLabs portal to create a new deployment for this Magento instance.</comment>
+                </field>
             </group>
         </section>
     </system>
