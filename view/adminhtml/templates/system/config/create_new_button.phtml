@@ -21,7 +21,7 @@ if (!$neutromeBaseUrl) {
     $tooltip = __('Could not determine Magento Base URL.');
 } else {
     $targetUrl = rtrim($neutromeBaseUrl, '/') .
-        '/profile/services?create=magento2-admin-mcp-server-v2' .
+        '/profile/services?create=storeowner-magento2' .
         '&name=' . urlencode(is_string($magentoStoreName) && strlen($magentoStoreName) > 0 ? $magentoStoreName : $magentoAdminBaseUrl) .
         '&magentoBaseUrl=' . urlencode((string)$magentoAdminBaseUrl);
 }
