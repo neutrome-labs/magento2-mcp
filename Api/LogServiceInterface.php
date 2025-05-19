@@ -19,7 +19,7 @@ interface LogServiceInterface
      * List log files from var/log directory.
      *
      * @return \NeutromeLabs\Mcp\Api\Data\LogFileInfoInterface[]
-     * @throws \Magento\Framework\Exception\FileSystemException\FileSystemException
+     * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function listLogFiles(): array;
 
@@ -30,7 +30,7 @@ interface LogServiceInterface
      * @param int $lines Number of lines to retrieve from the end. Defaults to 50.
      * @return string[] Array of log lines.
      * @throws \Magento\Framework\Exception\NotFoundException If the file does not exist.
-     * @throws \Magento\Framework\Exception\FileSystemException\FileSystemException On file read errors.
+     * @throws \Magento\Framework\Exception\FileSystemException On file read errors.
      */
     public function tailLogFile(string $filePath, int $lines = 50): array;
 }
