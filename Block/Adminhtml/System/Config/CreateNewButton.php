@@ -10,6 +10,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\UrlInterface as MagentoUrlInterface;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use NeutromeLabs\Core\Helper\Data as CoreHelper;
@@ -26,21 +27,18 @@ class CreateNewButton extends Field
     protected $_template = 'NeutromeLabs_Mcp::system/config/create_new_button.phtml';
 
     public function __construct(
-        Context               $context,
         CoreHelper            $coreHelper,
         ScopeConfigInterface  $scopeConfig,
         StoreManagerInterface $storeManager,
-        array                 $data = []
+        Context               $context,
+        array                 $data = [],
+        ?SecureHtmlRenderer   $secureRenderer = null
     )
     {
         $this->coreHelper = $coreHelper;
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        parent::__construct($context, $data);
-
-        // disable caching
-        $this->setCacheLifetime(false);
-        $this->setCacheKey(null);
+        parent::__construct($context, $data, $secureRenderer);
     }
 
     /**
