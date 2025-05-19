@@ -1,11 +1,11 @@
 # @storeowner | Magento 2
 
-Magento 2 Admin MCP Extension
+General-purpose Magento AI 
 
 Roman B., 2025
 
 
-## Install general-purpose Magento AI in 3 simple steps:
+## Install in 3 simple steps:
 
 1. Install this extension and activate Cloud
 

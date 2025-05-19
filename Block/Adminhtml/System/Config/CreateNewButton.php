@@ -37,6 +37,10 @@ class CreateNewButton extends Field
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         parent::__construct($context, $data);
+
+        // disable caching
+        $this->setCacheLifetime(false);
+        $this->setCacheKey(null);
     }
 
     /**
