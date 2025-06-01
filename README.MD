@@ -2,7 +2,7 @@
 
 General-purpose Magento AI 
 
-Roman B., 2025
+Neutrome Labs, 2025
 
 
 ## Install in 3 simple steps:
